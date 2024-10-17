@@ -2,17 +2,19 @@ const User = require('../models/userModel');
 const bcrypt = require('bcryptjs');
 const { sendEmail } = require('../services/emailService');
 const { messageResponse } = require('../services/messageResponse');
+const userValidationSchema = require('../validation/userValidation');
 
 
 
 // Register User and Send Verification Email
 const registerUser = async (req, res) => {
-  const { name, email, password } = req.body;
+const { name, email, password } = req.body;
 
-  // Validate input
-  if (!name || !email || !password) {
-    return res.status(400).json({ msg: messageResponse.ENTER_ALL_FIELDS });
-  };
+  // Validate input with Joi validation
+  const { error } = userValidationSchema.validate(req.body);
+  if (error) {
+    return res.status(400).json({ msg: error.details[0].message });
+  }
 
   try {
     // Check if the user already exists
@@ -46,7 +48,9 @@ const registerUser = async (req, res) => {
       //save the user
       await user.save();
       return res.status(201).json({
-        msg: messageResponse.USER_REGISTERED,
+        status: "success",
+        statusCode: 201,
+        successMessage: messageResponse.USER_REGISTERED,
       });
     } else {
       // If email failed, throw an error
@@ -54,7 +58,7 @@ const registerUser = async (req, res) => {
     }
 
   } catch (error) {
-    res.status(500).json({ error: error, msg: messageResponse.SERVER_ERROR });
+    res.status(500).json({error: error.message, msg: messageResponse.SERVER_ERROR });
   }
 };
 
@@ -83,8 +87,8 @@ const verifyEmail = async (req, res) => {
 
     res.status(200).json({ msg: messageResponse.EMAIL_VERIFIED });
 
-  } catch (err) {
-    res.status(500).json({ msg: messageResponse.SERVER_ERROR });
+  } catch (error) {
+    res.status(500).json({error:error.message, msg: messageResponse.SERVER_ERROR });
   }
 };
 
