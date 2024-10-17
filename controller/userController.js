@@ -13,7 +13,7 @@ const { name, email, password } = req.body;
   // Validate input with Joi validation
   const { error } = userValidationSchema.validate(req.body);
   if (error) {
-    return res.status(400).json({ msg: error.details[0].message });
+    return res.status(422).json({ status:messageResponse.SUCCESS,statusCode: 422,msg: error.details[0].message });
   }
 
   try {
