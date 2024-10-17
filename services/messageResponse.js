@@ -6,5 +6,6 @@ exports.messageResponse = {
     MAIL_SERVER_ERROR: 'Mail Server error',
     INVALID_TOKEN:'Invalid or expired token',
     EMAIL_VERIFIED: 'Email verified successfully',
+    SUCCESS: 'success'
 };
 

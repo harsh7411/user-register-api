@@ -48,7 +48,7 @@ const { name, email, password } = req.body;
       //save the user
       await user.save();
       return res.status(201).json({
-        status: "success",
+        status: messageResponse.SUCCESS,
         statusCode: 201,
         successMessage: messageResponse.USER_REGISTERED,
       });
@@ -85,7 +85,7 @@ const verifyEmail = async (req, res) => {
     user.verificationTokenExpires = undefined;  // Remove the expiration date
     await user.save();
 
-    res.status(200).json({ msg: messageResponse.EMAIL_VERIFIED });
+    res.status(200).json({ status: messageResponse.SUCCESS,msg: messageResponse.EMAIL_VERIFIED });
 
   } catch (error) {
     res.status(500).json({error:error.message, msg: messageResponse.SERVER_ERROR });

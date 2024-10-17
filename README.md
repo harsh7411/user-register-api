@@ -7,6 +7,7 @@ npm init -y
 # Requirements
 node - 20.18.0
 npm - 10.8.2
+mongodb - 8.0.1
 
 # Package installation
 npm install
@@ -18,3 +19,6 @@ npm install
 # Run the server
 npm start
 
+# API Endpoints
+Register - http://localhost:4000/api/register
+verifyEmail - http://localhost:4000/api/verify-email
